@@ -1,4 +1,3 @@
-// Setup:
 const db = require("../connection");
 const { selectAllTopics } = require("../models/app.models");
 

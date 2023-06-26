@@ -1,4 +1,3 @@
-// Setup:
 const app = require("../db/app");
 const db = require("../db/connection");
 const seed = require("../db/seeds/seed");
@@ -11,13 +10,10 @@ const {
 const request = require("supertest");
 const { getEndpointDescription } = require("../db/controllers/app.controllers");
 
-// Needed for test ENV:
 beforeEach(() => {
-  // Re-seeds the DB.
   return seed({ articleData, commentData, topicData, userData });
 });
 afterAll(() => {
-  // Stop hanging.
   db.end();
 });
 
