@@ -11,3 +11,4 @@ exports.selectAllTopics = () => {
         return rows;
     });
 }
+

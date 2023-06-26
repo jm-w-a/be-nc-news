@@ -6,7 +6,7 @@
   "scripts": {
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
-    "test": "jest --watch",
+    "test": "jest",
     "prepare": "husky install"
   },
   "repository": {
@@ -30,12 +30,11 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jest-sorted": "^1.0.14",
-    "pg": "^8.11.0",
-    "supertest": "^6.3.3"
+    "pg": "^8.11.0"
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "jest-sorted"
+      "jest-extended/all"
     ]
   }
 }
