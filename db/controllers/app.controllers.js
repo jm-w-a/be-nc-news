@@ -1,22 +1,31 @@
 const db = require("../connection");
 const fs = require("fs/promises");
-const { selectAllTopics } = require("../models/app.models");
+const { selectAllTopics, selectArticleById } = require("../models/app.models");
 
-exports.getEndpointDescription = (req, res) => {
+exports.getEndpointDescription = (req, res, next) => {
     fs.readFile(`${__dirname}/../../endpoints.json`, 'utf8')
     .then((descriptions) => {
         const endPoints = JSON.parse(descriptions)
         res.status(200).send({endPoints});
     }).catch((err)=>{
-        console.log(err);
+        next(err);
     })
 }
-
-exports.getAllTopics = (req, res) => {
+exports.getAllTopics = (req, res, next) => {
     selectAllTopics()
     .then((topics)=>{
         res.status(200).send({topics});
     }).catch((err)=>{
-        console.log(err);
+        next(err);
+    })
+}
+exports.getArticleById = (req, res, next) => {
+    const { article_id } = req.params;
+
+    selectArticleById(article_id)
+    .then((article)=>{
+        res.status(200).send({article});
+    }).catch((err)=>{
+        next(err);
     })
 }
