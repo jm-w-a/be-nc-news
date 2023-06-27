@@ -19,8 +19,6 @@ describe("GET - All descriptions of all endpoints:", () => {
       .get("/api/")
       .expect(200)
       .then(({body})=>{
-        return Promise.all([fs.readFile(`${__dirname}/../endpoints.json`, 'utf8'), body])
-      }).then(([fileOutput, body])=>{
         expect(typeof body).toBe('object');
       })
   });
@@ -31,7 +29,7 @@ describe("GET - All descriptions of all endpoints:", () => {
       .then(({body})=>{
         return Promise.all([fs.readFile(`${__dirname}/../endpoints.json`, 'utf8'), body])
       }).then(([fileOutput, body])=>{
-        expect(body.parsedDescriptions).toEqual(JSON.parse(fileOutput));
+        expect(body.endPoints).toEqual(JSON.parse(fileOutput));
       })
   });
 });
