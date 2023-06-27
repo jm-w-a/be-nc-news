@@ -1,13 +1,16 @@
 const app = require("../db/app");
 const db = require("../db/connection");
+
 const fs = require("fs/promises");
 const seed = require ("../db/seeds/seed");
 const {articleData, commentData, topicData, userData} = require("../db/data/test-data/index");
 const { getEndpointDescription } = require("../db/controllers/app.controllers");
+
 const request = require("supertest");
+const { getEndpointDescription } = require("../db/controllers/app.controllers");
 
 beforeEach(()=>{
-    return seed({articleData, commentData, topicData, userData}); // find out how to do all data?
+    return seed({articleData, commentData, topicData, userData}); 
 });
 afterAll(()=>{ 
     db.end();

@@ -9,3 +9,4 @@ exports.selectAllTopics = () => {
         return rows;
     });
 }
+
