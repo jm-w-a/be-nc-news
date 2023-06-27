@@ -11,7 +11,8 @@ const {
 const {
   getEndpointDescription,
   getAllTopics,
-  getArticleById,
+  getAllArticles,
+  getArticleById
 } = require("../db/controllers/app.controllers");
 const {
   handlePsqlErrors,
@@ -21,6 +22,7 @@ const {
 
 app.get("/api/", getEndpointDescription);
 app.get("/api/topics", getAllTopics);
+app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 
 app.use(handlePsqlErrors);
