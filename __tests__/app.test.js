@@ -36,18 +36,18 @@ describe("GET - All descriptions of all endpoints:", () => {
   });
 });
 describe("GET - All articles:", ()=> {
-    test("200: Responds with an topics array of topic objects:", () => {
-        return request(app)
-        .get("/api/topics")
-        .expect(200)
-        .then(({body})=>{
-          expect(body.topics).toHaveLength(3);
-          body.topics.forEach((topic)=>{
-            expect(topic).toHaveProperty("slug", expect.any(String));
-            expect(topic).toHaveProperty("description", expect.any(String));
-          })
-        })
-    });
+  test("200: Responds with an topics array of topic objects:", () => {
+    return request(app)
+      .get("/api/topics")
+      .expect(200)
+      .then(({body})=>{
+        expect(body.topics).toHaveLength(3);
+        body.topics.forEach((topic)=>{
+          expect(topic).toHaveProperty("slug", expect.any(String));
+          expect(topic).toHaveProperty("description", expect.any(String));
+      })
+    })
+  });
 })
 describe("GET - Article by article_id:", ()=> {
   test("200: Responds with an article object (article_id = 1), which should have author, title, article_id, body, topic, created_at, votes, and article_img_url:", () => {
