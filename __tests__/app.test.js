@@ -37,7 +37,7 @@ describe("GET - All descriptions of all endpoints:", () => {
       })
   });
 });
-describe("GET - All articles:", ()=> {
+describe("GET - All topics:", ()=> {
   test("200: Responds with an topics array of topic objects:", () => {
     return request(app)
       .get("/api/topics")
@@ -50,15 +50,16 @@ describe("GET - All articles:", ()=> {
       })
     })
   });
-})
+});
 describe("GET - All articles:", ()=> {
   test("200: Responds with an articles array of article objects - without the body property:", () => {
     return request(app)
-    .get("/api/articles")
+    .get("/api/articles?sort_by=created_at")
     .expect(200)
     .then(({body})=>{
       const { articles } = body;
       expect(articles).toHaveLength(13);
+      
       articles.forEach((article)=>{
         expect(article).toHaveProperty("article_id", expect.any(Number));
         expect(article).toHaveProperty("author", expect.any(String));
@@ -67,20 +68,12 @@ describe("GET - All articles:", ()=> {
         expect(article).toHaveProperty("created_at", expect.any(String));
         expect(article).toHaveProperty("votes", expect.any(Number));
         expect(article).toHaveProperty("article_img_url", expect.any(String));
+
+        expect(articles).toBeSortedBy("created_at", {descending: true});
       })
     })
   });
-  test("200: Responds with an articles array of article objects, sorted by created_at in descending order:", ()=>{
-    return request(app)
-    .get("/api/articles?sort_by=created_at")
-    .expect(200)
-    .then(({body})=>{
-      const { articles } = body;
-      expect(articles).toHaveLength(13);
-      expect(articles).toBeSortedBy("created_at", {descending: true});
-    })
-  });
-})
+});
 describe("GET - Article by article_id:", ()=> {
   test("200: Responds with an article object (article_id = 1), which should have author, title, article_id, body, topic, created_at, votes, and article_img_url:", () => {
     return request(app)
@@ -135,4 +128,4 @@ describe("GET - Article by article_id:", ()=> {
       expect(msg).toBe("Bad request");
     })
   });
-})
+});

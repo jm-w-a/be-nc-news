@@ -1,6 +1,6 @@
 const db = require("../connection");
 const fs = require("fs/promises");
-const { selectAllTopics, selectAllArticles, selectArticleById } = require("../models/app.models");
+const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById } = require("../models/app.models");
 
 exports.getEndpointDescription = (req, res, next) => {
     fs.readFile(`${__dirname}/../../endpoints.json`, 'utf8')
