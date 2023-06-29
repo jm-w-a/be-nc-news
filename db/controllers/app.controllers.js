@@ -37,3 +37,13 @@ exports.getArticleById = (req, res, next) => {
         next(err);
     })
 }
+exports.getAllArticleCommentsById = (req, res, next) => {
+    const { article_id } = req.params;
+
+    selectAllArticleCommentsById(article_id)
+    .then((comments)=>{
+        res.status(200).send({comments});
+    }).catch((err)=>{
+        next(err);
+    })
+}
