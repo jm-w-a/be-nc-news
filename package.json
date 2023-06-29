@@ -8,7 +8,7 @@
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
     "prepare": "husky install",
-    "see-prod": "NODE_ENV=productions npm run seed",
+    "seed-prod": "NODE_ENV=productions npm run seed",
     "start": "node listen.js"
   },
   "repository": {
