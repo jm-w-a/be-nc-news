@@ -1,25 +1,25 @@
 const express = require("express");
 const app = express();
-const db = require("../db/connection");
-const seed = require("../db/seeds/seed");
+const db = require("./db/connection");
+const seed = require("./db/seeds/seed");
 const {
   articleData,
   commentData,
   topicData,
   userData,
-} = require("../db/data/test-data/index");
+} = require("./db/data/test-data/index");
 const {
   getEndpointDescription,
   getAllTopics,
   getAllArticles,
   getArticleById,
   getAllArticleCommentsById
-} = require("../db/controllers/app.controllers");
+} = require("./controllers/app.controllers");
 const {
   handlePsqlErrors,
   handleCustomErrors,
   handleServerErrors,
-} = require("./errors");
+} = require("./db/errors");
 
 app.use(express.json());
 

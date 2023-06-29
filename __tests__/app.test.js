@@ -1,10 +1,10 @@
-const app = require("../db/app");
+const app = require("../app");
 const db = require("../db/connection");
 
 const fs = require("fs/promises");
 const seed = require ("../db/seeds/seed");
 const {articleData, commentData, topicData, userData} = require("../db/data/test-data/index");
-const { getEndpointDescription } = require("../db/controllers/app.controllers");
+const { getEndpointDescription } = require("../controllers/app.controllers");
 
 const request = require("supertest");
 require('jest-sorted');
