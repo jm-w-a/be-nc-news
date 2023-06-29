@@ -43,5 +43,27 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves all comments for a given article_id",
+    "queries": ["article_id"],
+    "exampleResponse": {
+      "comments": [
+        {
+          "body": "git push origin master",
+          "votes": 0,
+          "author": "icellusedkars",
+          "article_id": 3,
+          "created_at": "1592641440000"
+        },
+        {
+          "body": "Ambidextrous marsupial",
+          "votes": 0,
+          "author": "icellusedkars",
+          "article_id": 3,
+          "created_at": "1600560600000"
+        }
+      ]
+    }
   }
 }

@@ -59,7 +59,6 @@ describe("GET - All articles:", ()=> {
     .then(({body})=>{
       const { articles } = body;
       expect(articles).toHaveLength(13);
-      
       articles.forEach((article)=>{
         expect(article).toHaveProperty("article_id", expect.any(Number));
         expect(article).toHaveProperty("author", expect.any(String));
@@ -68,6 +67,7 @@ describe("GET - All articles:", ()=> {
         expect(article).toHaveProperty("created_at", expect.any(String));
         expect(article).toHaveProperty("votes", expect.any(Number));
         expect(article).toHaveProperty("article_img_url", expect.any(String));
+        expect(article).toHaveProperty("comment_count", expect.any(Number));
 
         expect(articles).toBeSortedBy("created_at", {descending: true});
       })
@@ -120,7 +120,47 @@ describe("GET - Article by article_id:", ()=> {
   });
   test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
     return request(app)
-    .get("/api/articles/nonsense") // Testing to get errors currently...
+    .get("/api/articles/badrequest") 
+    .expect(400)
+    .then(({body})=>{
+      const { msg } = body;
+
+      expect(msg).toBe("Bad request");
+    })
+  });
+});
+describe("GET - All Comments by article_id:", ()=> {
+  test("200: Responds with an array of comments for the given article_id, in descending order:", () => {
+    return request(app)
+    .get("/api/articles/3/comments")
+    .expect(200)
+    .then(({body})=>{
+      const { comments } = body;
+      expect(comments).toHaveLength(2);
+      comments.forEach((comment)=>{
+        expect(comment).toHaveProperty("comment_id", expect.any(Number));
+        expect(comment).toHaveProperty("votes", expect.any(Number));
+        expect(comment).toHaveProperty("created_at", expect.any(String));
+        expect(comment).toHaveProperty("author", expect.any(String));
+        expect(comment).toHaveProperty("body", expect.any(String));
+        expect(comment).toHaveProperty("article_id", expect.any(Number)); 
+
+        expect(comments).toBeSortedBy("created_at", {descending: true});
+      })
+    })
+  });
+  test("404: Responds with 'Not found' when passed a valid api request which does not exist yet:", () => {
+    return request(app)
+    .get("/api/articles/1000/comments")
+    .expect(404)
+    .then(({body})=>{
+      const { msg } = body;
+      expect(msg).toBe("Not found");
+    })
+  });
+  test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
+    return request(app)
+    .get("/api/articles/badrequest/comments") 
     .expect(400)
     .then(({body})=>{
       const { msg } = body;
