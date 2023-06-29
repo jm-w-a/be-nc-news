@@ -21,11 +21,17 @@ const {
   handleServerErrors,
 } = require("./errors");
 
+app.use(express.json());
+
 app.get("/api/", getEndpointDescription);
 app.get("/api/topics", getAllTopics);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles/:article_id/comments", getAllArticleCommentsById);
+
+app.all("*", (_,res) => {
+  res.status(404).send({msg:"Not found"});
+});
 
 app.use(handlePsqlErrors);
 app.use(handleCustomErrors);

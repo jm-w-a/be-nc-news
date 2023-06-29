@@ -59,7 +59,6 @@ describe("GET - All articles:", ()=> {
     .then(({body})=>{
       const { articles } = body;
       expect(articles).toHaveLength(13);
-      
       articles.forEach((article)=>{
         expect(article).toHaveProperty("article_id", expect.any(Number));
         expect(article).toHaveProperty("author", expect.any(String));
@@ -68,6 +67,7 @@ describe("GET - All articles:", ()=> {
         expect(article).toHaveProperty("created_at", expect.any(String));
         expect(article).toHaveProperty("votes", expect.any(Number));
         expect(article).toHaveProperty("article_img_url", expect.any(String));
+        expect(article).toHaveProperty("comment_count", expect.any(Number));
 
         expect(articles).toBeSortedBy("created_at", {descending: true});
       })
@@ -130,7 +130,7 @@ describe("GET - Article by article_id:", ()=> {
   });
 });
 describe("GET - All Comments by article_id:", ()=> {
-  test("200: Responds with an array of comments for the given article_id:", () => {
+  test("200: Responds with an array of comments for the given article_id, in descending order:", () => {
     return request(app)
     .get("/api/articles/3/comments")
     .expect(200)
@@ -156,6 +156,16 @@ describe("GET - All Comments by article_id:", ()=> {
     .then(({body})=>{
       const { msg } = body;
       expect(msg).toBe("Not found");
+    })
+  });
+  test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
+    return request(app)
+    .get("/api/articles/badrequest/comments") 
+    .expect(400)
+    .then(({body})=>{
+      const { msg } = body;
+
+      expect(msg).toBe("Bad request");
     })
   });
 });
