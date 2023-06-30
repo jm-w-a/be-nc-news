@@ -13,7 +13,8 @@ const {
   getAllTopics,
   getAllArticles,
   getArticleById,
-  getAllArticleCommentsById
+  getAllArticleCommentsById,
+  postArticleIdComment
 } = require("./controllers/app.controllers");
 const {
   handlePsqlErrors,
@@ -28,6 +29,8 @@ app.get("/api/topics", getAllTopics);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles/:article_id/comments", getAllArticleCommentsById);
+
+app.post("/api/articles/:article_id/comments", postArticleIdComment);
 
 app.all("*", (_,res) => {
   res.status(404).send({msg:"Not found"});
