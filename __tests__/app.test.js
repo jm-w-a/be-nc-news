@@ -293,7 +293,7 @@ describe("PATCH - An article by id:", ()=> {
   });
   test("200: Responds with the updated article object, with inc_votes increased by -100:", () => {
     const testPatch = {
-      inc_votes: -1,
+      inc_votes: -100,
     }
 
     return request(app)
@@ -310,7 +310,7 @@ describe("PATCH - An article by id:", ()=> {
   });
   test("200: Responds with the updated article object, with inc_votes increased by -101:", () => {
     const testPatch = {
-      inc_votes: -1,
+      inc_votes: -101,
     }
 
     return request(app)
@@ -355,7 +355,7 @@ describe("PATCH - An article by id:", ()=> {
       expect(msg).toBe("Not found");
     })
   });
-  test.only("400: Responds with 'Bad request' when passed a invalid api request:", () => {
+  test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
     const testPatch = {
       inc_votes: 1,
     }
