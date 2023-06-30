@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 const fs = require("fs/promises");
-const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById, insertArticleIdComment } = require("../models/app.models");
+const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById, insertArticleIdComment, updateArticleId } = require("../models/app.models");
 
 exports.getEndpointDescription = (req, res, next) => {
     fs.readFile(`${__dirname}/../endpoints.json`, 'utf8')
@@ -55,6 +55,17 @@ exports.postArticleIdComment = (req, res, next) => {
     .then((postedComment)=>{
         
         res.status(201).send({postedComment});
+    }).catch((err)=>{
+        next(err);
+    })
+}
+exports.patchArticleId = (req, res, next) => {
+    const { article_id } = req.params;
+    const { inc_votes } = req.body;
+
+    updateArticleId(article_id, inc_votes)
+    .then((patchedArticle)=>{
+        res.status(200).send({patchedArticle});
     }).catch((err)=>{
         next(err);
     })
