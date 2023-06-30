@@ -371,3 +371,23 @@ describe("PATCH - An article by id:", ()=> {
     })
   });
 });
+describe("DELETE - A comment by comment_id:", ()=> {
+  test("204: Responds with no content:", () => {
+    return request(app)
+    .delete("/api/comments/1")
+    .expect(204)
+    .then(({body})=>{
+      expect(body.length).toBe(undefined);
+    })
+  });
+  test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
+    return request(app)
+    .delete("/api/comments/badrequest")
+    .expect(400)
+    .then(({body})=>{
+
+      const { msg } = body;
+      expect(msg).toBe("Bad request");
+    })
+  });
+});

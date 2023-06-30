@@ -65,5 +65,50 @@
         }
       ]
     }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "Posts a comment to given article_id",
+    "queries": ["article_id", "username", "body"],
+    "exampleResponse": {
+      "comment": [
+        {
+          "comment_id": 19,
+          "body": "Hello. This is a test...",
+          "article_id": 1,
+          "author": "butter_bridge",
+          "votes": 0,
+          "created_at": "2023-06-30T10:38:59.629Z"
+        }
+      ]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "Patches an article vote by article_id",
+    "queries": ["article_id", "inc_votes"],
+    "exampleResponse": {
+      "article": [
+        {
+          "article_id": 1,
+          "title": "Living in the shadow of a great man",
+          "topic": "mitch",
+          "author": "butter_bridge",
+          "body": "I find this existence challenging",
+          "created_at": "2020-07-09T20:11:00.000Z",
+          "votes": 101,
+          "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "Deletes a comment by comment_id",
+    "queries": ["comment_id"],
+    "exampleResponse": {
+      "comment": [
+        {
+          
+        }
+      ]
+    }
   }
 }
