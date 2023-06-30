@@ -9,7 +9,7 @@ exports.selectAllTopics = () =>{
         return rows;
     });
 }
-exports.selectAllArticles = (sort_by = "created_at") =>{
+exports.selectAllArticles = (sort_by = "created_at") => {
   const validSortBy = ["created_at"];
 
   if(!validSortBy.includes(sort_by)){
@@ -29,7 +29,7 @@ exports.selectAllArticles = (sort_by = "created_at") =>{
         return rows;
     });
 }
-exports.selectArticleById = (article_id) =>{
+exports.selectArticleById = (article_id) => {
   return db
     .query("SELECT * FROM articles WHERE article_id = $1", [article_id])
     .then(({rows})=>{
@@ -38,7 +38,7 @@ exports.selectArticleById = (article_id) =>{
       } else return rows[0];
     })
 }
-exports.selectAllArticleCommentsById = (article_id) =>{
+exports.selectAllArticleCommentsById = (article_id) => {
   return db
     .query("SELECT * FROM comments WHERE article_id = $1 ORDER by created_at DESC", [article_id])
       .then(({rows})=>{
@@ -47,7 +47,7 @@ exports.selectAllArticleCommentsById = (article_id) =>{
         } else return rows;
     })
 }
-exports.insertArticleIdComment = (article_id, username, body) =>{
+exports.insertArticleIdComment = (article_id, username, body) => {
   return db
     .query("INSERT into comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;", [article_id, username, body])
     .then(({ rows })=>{
@@ -57,7 +57,7 @@ exports.insertArticleIdComment = (article_id, username, body) =>{
       } else return rows[0];
     })
 }
-exports.updateArticleId = (article_id, inc_votes) =>{
+exports.updateArticleId = (article_id, inc_votes) => {
   return db
     .query("UPDATE articles SET votes = votes + $2 WHERE article_id = $1 RETURNING *", [article_id, inc_votes])
     .then(({ rows })=>{
@@ -74,4 +74,13 @@ exports.removeCommentByCommentID = (comment_id) => {
       return Promise.reject({status: 404, msg: "Not found"});
     } else return rows[0];
   })
+}
+exports.selectAllUsers = () => {
+  let query = "SELECT * FROM users";
+
+  return db
+    .query(query)
+    .then(({rows})=>{
+        return rows;
+    });
 }

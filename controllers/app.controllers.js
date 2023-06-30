@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 const fs = require("fs/promises");
-const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById, insertArticleIdComment, updateArticleId, removeCommentByCommentID } = require("../models/app.models");
+const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById, insertArticleIdComment, updateArticleId, removeCommentByCommentID, selectAllUsers } = require("../models/app.models");
 
 exports.getEndpointDescription = (req, res, next) => {
     fs.readFile(`${__dirname}/../endpoints.json`, 'utf8')
@@ -75,6 +75,14 @@ exports.deleteCommentByCommentID = (req, res, next) => {
     removeCommentByCommentID(comment_id)
     .then((deletedComment)=>{
         res.status(204).send({deletedComment});
+    }).catch((err)=>{
+        next(err);
+    })
+}
+exports.getAllUsers = (req, res, next) => {
+    selectAllUsers()
+    .then((users)=>{
+        res.status(200).send({users});
     }).catch((err)=>{
         next(err);
     })
