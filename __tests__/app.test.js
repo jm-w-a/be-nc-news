@@ -257,6 +257,74 @@ describe("PATCH - An article by id:", ()=> {
       expect(patchedArticle.votes).toBe(101)
     })
   });
+  test("200: Responds with the updated article object, with inc_votes increased by 2:", () => {
+    const testPatch = {
+      inc_votes: 2,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(102)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by -1:", () => {
+    const testPatch = {
+      inc_votes: -1,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(99)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by -100:", () => {
+    const testPatch = {
+      inc_votes: -1,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(0)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by -101:", () => {
+    const testPatch = {
+      inc_votes: -1,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(-1)
+    })
+  });
   test("404: Responds with 'Not found' when trying to update a non existent article:", () => {
     const testPatch = {
       inc_votes: 1,
@@ -297,7 +365,7 @@ describe("PATCH - An article by id:", ()=> {
     .send(testPatch)
     .expect(400)
     .then(({body})=>{
-      
+
       const { msg } = body;
       expect(msg).toBe("Bad request");
     })
