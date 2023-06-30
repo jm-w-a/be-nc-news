@@ -221,24 +221,6 @@ describe("POST - A comment to given article_id:", ()=> {
       expect(msg).toBe("Not found");
     })
   });
-  // test("404: Responds with 'Bad request' when passed a invalid api request:", () => {
-  //   const testComment = {
-  //     username: "butter_bridge",
-  //     body: "Hello. This is a test..."
-  //   }
-    
-  //   return request(app)
-  //   .post("/api/articles/1/comment") 
-  //   .send(testComment)
-  //   .expect(404)
-  //   .then(({body})=>{
-  //     console.log('Body: ', body);
-  //     console.log('Body msg: ',body.msg);
-  //     const { msg } = body;
-
-  //     expect(msg).toBe("Not found");
-  //   })
-  // });
   test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
     const testComment = {
       username: "butter_bridge",
