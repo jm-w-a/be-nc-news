@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const db = require("./db/connection");
 const seed = require("./db/seeds/seed");
+const cors = require('cors');
 const {
   articleData,
   commentData,
@@ -22,6 +23,7 @@ const {
   handleServerErrors,
 } = require("./db/errors");
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/api/", getEndpointDescription);
