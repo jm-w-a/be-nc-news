@@ -228,7 +228,7 @@ describe("POST - A comment to given article_id:", ()=> {
     }
     
     return request(app)
-    .post("/api/articles/hello/comments") 
+    .post("/api/articles/badrequest/comments") 
     .send(testComment)
     .expect(400)
     .then(({body})=>{
@@ -236,6 +236,174 @@ describe("POST - A comment to given article_id:", ()=> {
       const { msg } = body;
 
       expect(msg).toBe("Bad request");
+    })
+  });
+});
+describe("PATCH - An article by id:", ()=> {
+  test("200: Responds with the updated article object, with inc_votes increased by 1:", () => {
+    const testPatch = {
+      inc_votes: 1,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(101)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by 2:", () => {
+    const testPatch = {
+      inc_votes: 2,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(102)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by -1:", () => {
+    const testPatch = {
+      inc_votes: -1,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(99)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by -100:", () => {
+    const testPatch = {
+      inc_votes: -100,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(0)
+    })
+  });
+  test("200: Responds with the updated article object, with inc_votes increased by -101:", () => {
+    const testPatch = {
+      inc_votes: -101,
+    }
+
+    return request(app)
+    .patch("/api/articles/1")
+    .send(testPatch)
+    .expect(200)
+    .then(({body})=>{
+
+      const { patchedArticle } = body;
+      expect(patchedArticle).toHaveProperty("votes", expect.any(Number));
+      expect(patchedArticle).toHaveProperty("article_id", expect.any(Number));
+      expect(patchedArticle.votes).toBe(-1)
+    })
+  });
+  test("404: Responds with 'Not found' when trying to update a non existent article:", () => {
+    const testPatch = {
+      inc_votes: 1,
+    }
+
+    return request(app)
+    .patch("/api/articles/10000")
+    .send(testPatch)
+    .expect(404)
+    .then(({body})=>{
+
+      const { msg } = body;
+      expect(msg).toBe("Not found");
+    })
+  });
+  test("404: Responds with 'Not found' when trying to post on correct article_id, but wrong api path:", () => {
+    const testPatch = {
+      inc_votes: 1,
+    }
+
+    return request(app)
+    .patch("/api/article/1")
+    .send(testPatch)
+    .expect(404)
+    .then(({body})=>{
+
+      const { msg } = body;
+      expect(msg).toBe("Not found");
+    })
+  });
+  test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
+    const testPatch = {
+      inc_votes: 1,
+    }
+
+    return request(app)
+    .patch("/api/articles/badrequest")
+    .send(testPatch)
+    .expect(400)
+    .then(({body})=>{
+
+      const { msg } = body;
+      expect(msg).toBe("Bad request");
+    })
+  });
+});
+describe("DELETE - A comment by comment_id:", ()=> {
+  test("204: Responds with no content:", () => {
+    return request(app)
+    .delete("/api/comments/1")
+    .expect(204)
+    .then(({body})=>{
+      expect(body.length).toBe(undefined);
+    })
+  });
+  test("400: Responds with 'Bad request' when passed a invalid api request:", () => {
+    return request(app)
+    .delete("/api/comments/badrequest")
+    .expect(400)
+    .then(({body})=>{
+
+      const { msg } = body;
+      expect(msg).toBe("Bad request");
+    })
+  });
+});
+describe("GET - All users:", ()=> {
+  test("200: Responds with an users array of user objects:", () => {
+    return request(app)
+    .get("/api/users")
+    .expect(200)
+    .then(({body})=>{
+      const { users } = body;
+      expect(users).toHaveLength(4);
+      users.forEach((user)=>{
+        expect(user).toHaveProperty("username", expect.any(String));
+        expect(user).toHaveProperty("name", expect.any(String));
+        expect(user).toHaveProperty("avatar_url", expect.any(String));
+      })
     })
   });
 });

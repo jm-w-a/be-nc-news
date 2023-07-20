@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-exports.selectAllTopics = () => {
+exports.selectAllTopics = () =>{
   let query = "SELECT * FROM topics";
 
   return db
@@ -38,7 +38,7 @@ exports.selectArticleById = (article_id) => {
       } else return rows[0];
     })
 }
-exports.selectAllArticleCommentsById = (article_id) =>{
+exports.selectAllArticleCommentsById = (article_id) => {
   return db
     .query("SELECT * FROM comments WHERE article_id = $1 ORDER by created_at DESC", [article_id])
       .then(({rows})=>{
@@ -48,7 +48,6 @@ exports.selectAllArticleCommentsById = (article_id) =>{
     })
 }
 exports.insertArticleIdComment = (article_id, username, body) => {
-  
   return db
     .query("INSERT into comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;", [article_id, username, body])
     .then(({ rows })=>{
@@ -57,4 +56,31 @@ exports.insertArticleIdComment = (article_id, username, body) => {
         return Promise.reject({status: 404, msg: "Not found"});
       } else return rows[0];
     })
+}
+exports.updateArticleId = (article_id, inc_votes) => {
+  return db
+    .query("UPDATE articles SET votes = votes + $2 WHERE article_id = $1 RETURNING *", [article_id, inc_votes])
+    .then(({ rows })=>{
+      if(rows.length === 0){
+        return Promise.reject({status: 404, msg: "Not found"});
+      } else return rows[0];
+    })
+}
+exports.removeCommentByCommentID = (comment_id) => {
+  return db
+  .query("DELETE FROM comments WHERE comment_id = $1", [comment_id])
+  .then(({ rows })=>{
+    if(rows.length > 0){
+      return Promise.reject({status: 404, msg: "Not found"});
+    } else return rows[0];
+  })
+}
+exports.selectAllUsers = () => {
+  let query = "SELECT * FROM users";
+
+  return db
+    .query(query)
+    .then(({rows})=>{
+        return rows;
+    });
 }

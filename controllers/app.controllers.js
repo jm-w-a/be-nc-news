@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 const fs = require("fs/promises");
-const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById, insertArticleIdComment } = require("../models/app.models");
+const { selectAllTopics, selectAllArticles, selectArticleById, selectAllArticleCommentsById, insertArticleIdComment, updateArticleId, removeCommentByCommentID, selectAllUsers } = require("../models/app.models");
 
 exports.getEndpointDescription = (req, res, next) => {
     fs.readFile(`${__dirname}/../endpoints.json`, 'utf8')
@@ -53,8 +53,36 @@ exports.postArticleIdComment = (req, res, next) => {
 
     insertArticleIdComment(article_id, username, body)
     .then((postedComment)=>{
-        
         res.status(201).send({postedComment});
+    }).catch((err)=>{
+        next(err);
+    })
+}
+exports.patchArticleId = (req, res, next) => {
+    const { article_id } = req.params;
+    const { inc_votes } = req.body;
+
+    updateArticleId(article_id, inc_votes)
+    .then((patchedArticle)=>{
+        res.status(200).send({patchedArticle});
+    }).catch((err)=>{
+        next(err);
+    })
+}
+exports.deleteCommentByCommentID = (req, res, next) => {
+    const { comment_id } = req.params;
+
+    removeCommentByCommentID(comment_id)
+    .then((deletedComment)=>{
+        res.status(204).send({deletedComment});
+    }).catch((err)=>{
+        next(err);
+    })
+}
+exports.getAllUsers = (req, res, next) => {
+    selectAllUsers()
+    .then((users)=>{
+        res.status(200).send({users});
     }).catch((err)=>{
         next(err);
     })

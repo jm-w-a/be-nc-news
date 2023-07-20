@@ -15,7 +15,10 @@ const {
   getAllArticles,
   getArticleById,
   getAllArticleCommentsById,
-  postArticleIdComment
+  postArticleIdComment,
+  patchArticleId,
+  deleteCommentByCommentID,
+  getAllUsers
 } = require("./controllers/app.controllers");
 const {
   handlePsqlErrors,
@@ -31,8 +34,10 @@ app.get("/api/topics", getAllTopics);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles/:article_id/comments", getAllArticleCommentsById);
-
 app.post("/api/articles/:article_id/comments", postArticleIdComment);
+app.patch("/api/articles/:article_id", patchArticleId);
+app.delete("/api/comments/:comment_id", deleteCommentByCommentID);
+app.get("/api/users", getAllUsers)
 
 app.all("*", (_,res) => {
   res.status(404).send({msg:"Not found"});
